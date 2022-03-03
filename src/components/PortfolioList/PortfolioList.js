@@ -1,9 +1,12 @@
 import React from 'react';
 import './PortfolioList.scss';
 
-function PortfolioList({ title, active, setSelected }) {
+function PortfolioList({ title, active, setSelected, id}) {
     return (
-        <li className={'portfoliolist'}>{title}</li>
+        <li 
+        className={active ? 'portfoliolist active' : 'portfoliolist'}
+        onClick={()=>setSelected(id)}>
+            {title}</li>
     );
 }
 

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PortfolioList from '../PortfolioList/PortfolioList';
+import { featuredPortfolio, webPortfolio, designPortfolio, contentPortfolio } from '../../data';
 import './portfolio.scss';
 
 function Portfolio() {
-const [selected, setSelected] = useState('featured')
-    const list =[
+    const [selected, setSelected] = useState('featured');
+    const [data, setdata] = useState([]);
+    const list = [
         {
             id: 'featured',
             title: 'Featured'
@@ -21,56 +23,46 @@ const [selected, setSelected] = useState('featured')
             id: 'branding',
             title: 'Branding'
         },
-    ]
+    ];
+    useEffect(() => {
+        switch (selected) {
+            case "featured":
+                setdata(featuredPortfolio);
+                break;
+            case 'web':
+                setdata(webPortfolio);
+                break;
+            case 'design':
+                setdata(designPortfolio);
+                break;
+            case 'branding':
+                setdata(contentPortfolio);
+                break;
+            default:
+                setdata(featuredPortfolio);
+        }
+    }, [selected]);
 
     return (
         <div className='portfolio' id='portfolio'>
             <h1>Portfolio</h1>
             <ul>
-               {list.map((item, index)=> (
-                   <PortfolioList 
-                   title={item.title}
-                   active={selected === item.id}
-                   setSelected={setSelected}/>
-               ))}
+                {list.map((item, index) => (
+                    <PortfolioList
+                        title={item.title}
+                        active={selected === item.id}
+                        setSelected={setSelected}
+                        id={item.id} />
+                ))}
             </ul>
             <div className="container">
-                <div className="item">
-                    <img src="https://images.unsplash.com/photo-1615515057524-302a334449ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
-                    width='300px'
-                    alt="" />
-                    <h3>Banking App</h3>
-                </div>
-                <div className="item">
-                    <img src="https://images.unsplash.com/photo-1615515057524-302a334449ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                        width='300px'
-                        alt="" />
-                    <h3>Banking App</h3>
-                </div>
-                <div className="item">
-                    <img src="https://images.unsplash.com/photo-1615515057524-302a334449ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                        width='300px'
-                        alt="" />
-                    <h3>Banking App</h3>
-                </div>
-                <div className="item">
-                    <img src="https://images.unsplash.com/photo-1615515057524-302a334449ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                        width='300px'
-                        alt="" />
-                    <h3>Banking App</h3>
-                </div>
-                <div className="item">
-                    <img src="https://images.unsplash.com/photo-1615515057524-302a334449ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                        width='300px'
-                        alt="" />
-                    <h3>Banking App</h3>
-                </div>
-                <div className="item">
-                    <img src="https://images.unsplash.com/photo-1615515057524-302a334449ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                        width='300px'
-                        alt="" />
-                    <h3>Banking App</h3>
-                </div>
+                {data.map((i) => (
+                    <div className="item">
+                        <img src={i.img} alt="" />
+                        <h3>{i.title}</h3>
+                    </div>
+                ))}
+              
             </div>
         </div>
     );
